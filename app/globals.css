@@ -2,20 +2,48 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+.image-picker-container .swiper-slide {
+  position: relative;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+.image-picker-container .swiper-slide::after {
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  background-color: black;
+  opacity: 0.6;
 }
 
-body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+.image-picker-container .swiper-slide-thumb-active {
+  opacity: 1;
+}
+
+.image-gallery-picker {
+  @apply w-full h-full object-cover overflow-hidden;
+}
+
+.image-picker-container .swiper-slide-thumb-active::after {
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  background-color: black;
+  opacity: 0;
+}
+
+.PhoneInputInput {
+  @apply !bg-transparent text-white py-3 px-2 border-y border-r rounded-r-md outline-none;
+}
+
+.PhoneInputCountry {
+  @apply !border !mr-0 !px-2 rounded-l-md;
 }
