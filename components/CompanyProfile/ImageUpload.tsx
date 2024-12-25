@@ -13,7 +13,6 @@ import nProgress from "nprogress";
 import { CompanyProfile, CompanyProfileImages } from "@/types/api.types";
 import toast from "react-hot-toast";
 import { defaultToastStyle } from "@/utils/theme";
-import { revalidatePath } from "next/cache";
 
 export interface ExtendFile extends File {
   id: string;
@@ -62,7 +61,7 @@ function ImageUpload({
     if (images) {
       setFiles(images);
     }
-  }, []);
+  }, [images]);
 
   const router = useRouter();
 
@@ -94,13 +93,13 @@ function ImageUpload({
                       Authorization: "Token " + Cookies.get("token"),
                     },
                     onUploadProgress: (progressEvent) => {
-                      let percentCompleted = progressEvent.total
+                      const percentCompleted = progressEvent.total
                         ? Math.floor(
                             (progressEvent.loaded * 100) / progressEvent.total
                           )
                         : 0;
 
-                      let updatedFiles = files.map((item) => {
+                      const updatedFiles = files.map((item) => {
                         if (item.id === `${file.name}-${index}`) {
                           return assignIn(item, {
                             completedPercent: percentCompleted,
@@ -165,7 +164,7 @@ function ImageUpload({
       setFiles(filterFiles);
     } else {
       try {
-        const res = await axios.delete(
+        await axios.delete(
           `${process.env.NEXT_PUBLIC_API_URL}/company-profile-images/${file.id}/`,
           {
             headers: {
@@ -189,8 +188,6 @@ function ImageUpload({
         setFiles(filterFiles);
 
         router.refresh();
-
-        return res;
       } catch (error) {
         console.log("error", error);
         toast.error("Unable to delete image", defaultToastStyle);

@@ -15,9 +15,7 @@ function ImageThumb({
   company,
 }: {
   file: ExtendFile | ImageFile;
-  filterFile: (
-    file: ExtendFile | ImageFile
-  ) => Promise<AxiosResponse<any, any> | undefined>;
+  filterFile: (file: ExtendFile | ImageFile) => Promise<void>;
   company?: CompanyProfile | null;
 }) {
   const [state, setState] = useState({

@@ -1,7 +1,7 @@
 import { CompanyProfile, UserProfile } from "@/types/api.types";
 import axios from "axios";
 import Image from "next/image";
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { FaUser } from "react-icons/fa6";
 import Cookies from "js-cookie";
 import { useRouter } from "next/navigation";
@@ -35,13 +35,7 @@ function ProfilePic({
     setFile({ ...file, image: event.target.files[0] });
   };
 
-  useEffect(() => {
-    if (file.image) {
-      sendProfileImage();
-    }
-  }, [file.image]);
-
-  const sendProfileImage = async () => {
+  const sendProfileImage = useCallback(async () => {
     const fd = new FormData();
     if (!file.image || !user) return;
 
@@ -56,7 +50,7 @@ function ProfilePic({
             Authorization: "Token " + Cookies.get("token"),
           },
           onUploadProgress: (progressEvent) => {
-            let percentCompleted = progressEvent.total
+            const percentCompleted = progressEvent.total
               ? Math.floor((progressEvent.loaded * 100) / progressEvent.total)
               : 0;
 
@@ -74,7 +68,13 @@ function ProfilePic({
       setFile({ image: null, profileImageProgress: 0 });
       console.log("error", error);
     }
-  };
+  }, [file, user]);
+
+  useEffect(() => {
+    if (file.image) {
+      sendProfileImage();
+    }
+  }, [file.image, sendProfileImage]);
   return (
     <div
       onMouseEnter={() => setShowProfilePics(true)}

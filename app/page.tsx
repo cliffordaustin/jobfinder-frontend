@@ -6,7 +6,7 @@ import Main from "../components/Main";
 import { getUserProfile } from "@/actions/userProfile";
 
 export default async function Home() {
-  let user = await getUserProfile();
+  const user = await getUserProfile();
 
   return (
     <main className="relative">

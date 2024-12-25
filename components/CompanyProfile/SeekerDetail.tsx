@@ -1,6 +1,6 @@
 import { CompanyProfile, Job, Seeker, UserProfile } from "@/types/api.types";
 import { Button, Loader } from "@mantine/core";
-import React from "react";
+import React, { useCallback } from "react";
 import Parser from "html-react-parser";
 import moment from "moment";
 import toast from "react-hot-toast";
@@ -51,7 +51,7 @@ function SeekerDetail({
 
   const [error, setError] = React.useState(false);
 
-  const getSeeker = async () => {
+  const getSeeker = useCallback(async () => {
     setIsLoading(true);
     const res = await fetch(
       `${process.env.NEXT_PUBLIC_API_URL}/seekers/${slug}/`,
@@ -74,13 +74,13 @@ function SeekerDetail({
     setIsLoading(false);
     setError(true);
     toast.error("Something went wrong", defaultToastStyle);
-  };
+  }, [slug]);
 
   React.useEffect(() => {
     if (slug && currentSlide === 2) {
       getSeeker();
     }
-  }, [slug, currentSlide]);
+  }, [slug, currentSlide, getSeeker]);
 
   const downloadCv = (url: string | null) => {
     if (typeof window !== "undefined" && url) {

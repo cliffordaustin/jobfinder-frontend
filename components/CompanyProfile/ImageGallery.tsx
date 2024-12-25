@@ -4,6 +4,7 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { CompanyProfileImages } from "@/types/api.types";
+import Image from "next/image";
 
 function ImageGallery({ images }: { images?: CompanyProfileImages[] }) {
   const settings = {
@@ -37,11 +38,15 @@ function ImageGallery({ images }: { images?: CompanyProfileImages[] }) {
   return (
     <Slider {...settings}>
       {images?.map((image) => (
-        <div key={image.id} className="shadow-lg rounded-xl">
-          <img
-            className="h-72 w-full object-cover rounded-xl"
+        <div
+          key={image.id}
+          className="shadow-lg h-72 w-full relative rounded-xl"
+        >
+          <Image
+            className="object-cover rounded-xl"
             src={image.image}
             alt="Image Gallery"
+            fill
           />
         </div>
       ))}

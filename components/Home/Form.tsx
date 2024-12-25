@@ -348,9 +348,6 @@ export default function Form({
           )}
         </div>
       </div>
-      {/* <div className="lg:w-2/4">
-        <img className="w-full h-full" src="./images/image2.svg" alt="" />
-      </div> */}
     </div>
   );
 }

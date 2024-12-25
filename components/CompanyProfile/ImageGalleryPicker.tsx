@@ -17,8 +17,6 @@ import { Button, Modal, useModalsStack } from "@mantine/core";
 import ImageUpload from "./ImageUpload";
 import WarningModal from "../WarningModal";
 
-SwiperCore.use([FreeMode, Navigation, Thumbs]);
-
 function ImageGalleryPicker({
   images,
   company,
@@ -26,6 +24,8 @@ function ImageGalleryPicker({
   images?: CompanyProfileImages[];
   company?: CompanyProfile | null;
 }) {
+  SwiperCore.use([FreeMode, Navigation, Thumbs]);
+
   const [thumbsSwiper, setThumbsSwiper] = useState<SwiperCore>();
   const [allowGallerySlideNext, setAllowGallerySlideNext] = useState(false);
   const [gallerySwiperIndex, setGallerySwiperIndex] = useState(0);

@@ -9,13 +9,12 @@ import { Text } from "@mantine/core";
 
 async function Jobs() {
   const jobs = await getAllJobs();
-  let user = await getUserProfile();
+  const user = await getUserProfile();
 
   return (
     <div className="text-white">
       <NavbarComponent user={user?.[0]}></NavbarComponent>
       <div className="w-[1200px] mx-auto">
-        {/* <SearchFilter></SearchFilter> */}
         <JobsComponent jobs={jobs} user={user?.[0]}></JobsComponent>
       </div>
       <div className="mt-12">
