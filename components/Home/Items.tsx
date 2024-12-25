@@ -21,24 +21,24 @@ const Items = ({ title, text, children }: ItemsProps) => {
       ref={ref}
       onMouseOver={() => setItemMouseOver(true)}
       onMouseLeave={() => setItemMouseOver(false)}
-      className="md:w-[425px] rounded-md bg-zinc-800 p-8 relative overflow-hidden"
+      className="md:w-[425px] rounded-lg bg-white p-8 relative overflow-hidden"
     >
-      <div className="absolute top-0 left-0 w-full h-full bg-black/20 blur-sm"></div>
+      <div className="absolute top-0 left-0 w-full h-full bg-white/20 blur-sm"></div>
       <motion.div
         initial={{
-          width: 350,
-          height: 350,
+          width: 270,
+          height: 270,
         }}
         animate={{
-          width: itemMouseOver ? 700 : 350,
-          height: itemMouseOver ? 700 : 350,
+          width: itemMouseOver ? 700 : 270,
+          height: itemMouseOver ? 700 : 270,
         }}
         transition={{
           duration: 0.5,
         }}
-        className="absolute -top-[200px] -left-[150px] rounded-full bg-white/5 blur-xl"
+        className="absolute -top-[200px] -left-[150px] rounded-full bg-black/5 blur-sm"
       ></motion.div>
-      <div className="flex flex-col text-white gap-4">
+      <div className="flex flex-col text-black gap-4">
         {children}
         <h1 className="text-2xl font-bold">{title}</h1>
         <p className="text-base">{text}</p>
@@ -49,7 +49,7 @@ const Items = ({ title, text, children }: ItemsProps) => {
         </Button>
       </Link>
 
-      <div className="w-full h-[10px] bg-zinc-700 absolute bottom-0 right-0 left-0"></div>
+      <div className="w-full h-[10px] bg-gray-100 absolute bottom-0 right-0 left-0"></div>
     </section>
   );
 };

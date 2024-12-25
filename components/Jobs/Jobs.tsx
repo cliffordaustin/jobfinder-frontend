@@ -22,7 +22,6 @@ function Jobs({
               <Job user={user} key={job.slug} job={job}></Job>
             ))}
           </div>
-          {/* <ActiveJob user={user}></ActiveJob> */}
         </div>
       ) : (
         <div className="text-center text-2xl font-bold mt-6">

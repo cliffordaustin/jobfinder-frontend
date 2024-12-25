@@ -35,9 +35,9 @@ function TextEditor({
     <RichTextEditor
       classNames={{
         root: "!overflow-y-scroll !h-[400px]",
-        toolbar: "!bg-zinc-800",
-        control: "!bg-zinc-800",
-        content: "!bg-zinc-900 !h-[400px]",
+        toolbar: "!bg-gray-100",
+        control: "!bg-gray-100",
+        content: "!bg-white !h-[400px]",
       }}
       editor={editor}
       variant="subtle"

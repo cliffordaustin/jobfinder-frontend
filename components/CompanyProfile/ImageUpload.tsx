@@ -209,8 +209,8 @@ function ImageUpload({
 
   return (
     <div className="py-4 sm:px-6 px-2">
-      <div className="mx-auto mt-8 max-w-3xl bg-zinc-800 rounded-lg max-h-600 overflow-y-scroll shadow-xl sm:px-12 px-6 py-8">
-        <h1 className="font-bold text-center text-2xl text-gray-100">
+      <div className="mx-auto mt-8 max-w-3xl bg-gray-100 rounded-lg max-h-600 overflow-y-scroll sm:px-12 px-6 py-8">
+        <h1 className="font-bold text-center text-2xl text-black">
           Upload your images
         </h1>
         <div
@@ -236,7 +236,7 @@ function ImageUpload({
               fill="currentColor"
             />
           </svg>
-          <h3 className="text-gray-300">Drag & Drop your image here</h3>
+          <h3 className="text-gray-600">Drag & Drop your image here</h3>
         </div>
         <div className="flex flex-col gap-4 items-center">{thumbs}</div>
       </div>
@@ -252,7 +252,8 @@ function ImageUpload({
           {!company && (
             <Button
               onClick={() => router.push("/company-profile")}
-              color="dark.6"
+              color="dark.8"
+              variant="outline"
               opacity={0.5}
             >
               Skip

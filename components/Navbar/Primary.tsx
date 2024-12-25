@@ -38,14 +38,14 @@ const NavbarComponent = ({ user }: { user?: UserProfile | null }) => {
     toast.error("Unable to logout", defaultToastStyle);
   };
   return (
-    <div className="flex px-5 border-b border-b-zinc-600 sticky top-0 left-0 right-0 z-50 bg-zinc-900 md:px-20 py-4 justify-between items-center">
+    <div className="flex px-5 border-b border-b-zinc-200 bg-white/40 backdrop-blur-sm sticky top-0 left-0 right-0 z-50 md:px-20 py-4 justify-between items-center">
       <div className="md:hidden">
         <Burger></Burger>
       </div>
       <Link href={{ pathname: "/" }}>
         <Logo type="small"></Logo>
       </Link>
-      <div className="flex items-center text-white font-semibold md:gap-8">
+      <div className="flex items-center text-black font-semibold md:gap-8">
         {!user?.is_company ? (
           <Link
             className="text-base cursor-pointer hidden md:block"
@@ -126,7 +126,7 @@ const NavbarComponent = ({ user }: { user?: UserProfile | null }) => {
               pathname: "/signup",
             }}
           >
-            <Button variant="light" color="gray" className="">
+            <Button variant="outline" color="dark.8" className="">
               Sign up
             </Button>
           </Link>

@@ -14,51 +14,63 @@ export async function POST(request: Request): Promise<NextResponse> {
     });
   }
 
-  const res = await fetch(
-    `${process.env.NEXT_PUBLIC_API_URL}/rest-auth/registration/`,
-    {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        ...parseBody.data,
-        password2: parseBody.data.password1,
-      }),
+  try {
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/rest-auth/registration/`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          ...parseBody.data,
+          password2: parseBody.data.password1,
+        }),
+      }
+    );
+
+    if (!res.ok) {
+      const errMessage: Partial<{
+        non_field_errors: string[];
+        email: string[];
+        password1: string[];
+      }> = await res.json();
+
+      return NextResponse.json(
+        {
+          success: false,
+          message:
+            errMessage?.email?.[0] ||
+            errMessage?.password1?.[0] ||
+            errMessage?.non_field_errors?.[0] ||
+            "Something went wrong",
+        },
+        {
+          status: res.status,
+        }
+      );
     }
-  );
 
-  if (!res.ok) {
-    const errMessage: Partial<{
-      non_field_errors: string[];
-      email: string[];
-      password1: string[];
-    }> = await res.json();
+    const data: { key: string } = await res.json();
 
+    (await cookies()).set({
+      name: "token",
+      value: data.key,
+    });
+
+    return NextResponse.json({
+      success: true,
+      message: "Success",
+    });
+  } catch (error) {
     return NextResponse.json(
       {
         success: false,
-        message:
-          errMessage?.email?.[0] ||
-          errMessage?.password1?.[0] ||
-          errMessage?.non_field_errors?.[0] ||
-          "Something went wrong",
+        message: "Something went wrong",
       },
       {
-        status: res.status,
+        status: 500,
       }
     );
   }
-
-  const data: { key: string } = await res.json();
-
-  (await cookies()).set({
-    name: "token",
-    value: data.key,
-  });
-
-  return NextResponse.json({
-    success: true,
-    message: "Success",
-  });
 }

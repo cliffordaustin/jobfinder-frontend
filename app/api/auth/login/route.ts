@@ -19,40 +19,52 @@ export async function POST(request: Request): Promise<NextResponse> {
     );
   }
 
-  const res = await fetch(
-    `${process.env.NEXT_PUBLIC_API_URL}/rest-auth/login/`,
-    {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(parseBody.data),
-    }
-  );
+  try {
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/rest-auth/login/`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(parseBody.data),
+      }
+    );
 
-  if (!res.ok) {
-    const errMessage: Partial<{ non_field_errors: string[] }> =
-      await res.json();
+    if (!res.ok) {
+      const errMessage: Partial<{ non_field_errors: string[] }> =
+        await res.json();
+      return NextResponse.json(
+        {
+          success: false,
+          message: errMessage?.non_field_errors?.[0] || "Something went wrong",
+        },
+        {
+          status: res.status,
+        }
+      );
+    }
+
+    const data: { key: string } = await res.json();
+
+    (await cookies()).set({
+      name: "token",
+      value: data.key,
+    });
+
+    return NextResponse.json({
+      success: true,
+      message: "Success",
+    });
+  } catch (error) {
     return NextResponse.json(
       {
         success: false,
-        message: errMessage?.non_field_errors?.[0] || "Something went wrong",
+        message: "Something went wrong",
       },
       {
-        status: res.status,
+        status: 500,
       }
     );
   }
-
-  const data: { key: string } = await res.json();
-
-  (await cookies()).set({
-    name: "token",
-    value: data.key,
-  });
-
-  return NextResponse.json({
-    success: true,
-    message: "Success",
-  });
 }

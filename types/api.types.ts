@@ -41,6 +41,8 @@ export interface Job {
   address: string | null;
   remote: boolean;
   salary: number | null;
+  salaryTo: number | null;
+  salary_type: string | null;
   work_email: string;
   phone_number: string;
   description: string | null;

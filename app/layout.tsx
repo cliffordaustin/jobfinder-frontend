@@ -28,10 +28,10 @@ export default function RootLayout({
       <head>
         <ColorSchemeScript />
       </head>
-      <body className={`${ubuntu.className} bg-zinc-900`}>
+      <body className={`${ubuntu.className}`}>
         <ReactQueryProvider>
           <NextTopLoader
-            color="#f8f9fa"
+            color="#000"
             initialPosition={0.08}
             crawlSpeed={200}
             height={4}
@@ -39,7 +39,7 @@ export default function RootLayout({
             showSpinner={true}
             easing="ease"
             speed={200}
-            shadow="0 0 10px #e9ecef,0 0 5px #dee2e6"
+            shadow="0 0 10px #000,0 0 5px #000"
           />
           <Toaster position="top-center" reverseOrder={false} />
           <MantineProvider>{children}</MantineProvider>

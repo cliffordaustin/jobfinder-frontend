@@ -2,6 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
+ul {
+  @apply list-disc;
+}
+
 .image-picker-container .swiper-slide {
   position: relative;
 }
@@ -40,10 +44,27 @@
   opacity: 0;
 }
 
-.PhoneInputInput {
-  @apply !bg-transparent text-white py-3 px-2 border-y border-r rounded-r-md outline-none;
+.PhoneInputCountry {
+  @apply !border border-gray-300 !mr-0 !px-2 rounded-l-md;
 }
 
-.PhoneInputCountry {
-  @apply !border !mr-0 !px-2 rounded-l-md;
+.swiper-container {
+  position: relative;
+  overflow: hidden; /* Ensures clean clipping */
+}
+
+.slide-content {
+  height: 100%; /* Make content take full height */
+  overflow-y: auto; /* Enable scroll on overflow */
+  padding: 16px; /* Optional padding */
+  box-sizing: border-box;
+}
+
+/* Optional: Ensure smooth scroll appearance */
+.slide-content::-webkit-scrollbar {
+  width: 8px;
+}
+.slide-content::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0.2);
+  border-radius: 4px;
 }

@@ -7,7 +7,7 @@ const lobster = Lobster_Two({
 
 const Logo = ({ type }: { type: string }) => {
   return (
-    <div className="flex flex-col text-white items-center gap-1 cursor-pointer">
+    <div className="flex flex-col text-black items-center gap-1 cursor-pointer">
       <h1
         className={
           "block font-extrabold " +

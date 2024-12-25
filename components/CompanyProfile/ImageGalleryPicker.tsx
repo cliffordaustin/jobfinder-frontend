@@ -13,8 +13,9 @@ import { CompanyProfile, CompanyProfileImages } from "@/types/api.types";
 import Image from "next/image";
 import { MdOutlineChevronLeft, MdOutlineChevronRight } from "react-icons/md";
 import { useDisclosure } from "@mantine/hooks";
-import { Button, Modal } from "@mantine/core";
+import { Button, Modal, useModalsStack } from "@mantine/core";
 import ImageUpload from "./ImageUpload";
+import WarningModal from "../WarningModal";
 
 SwiperCore.use([FreeMode, Navigation, Thumbs]);
 
@@ -46,7 +47,7 @@ function ImageGalleryPicker({
     },
   };
 
-  const [opened, { open: open, close: close }] = useDisclosure(false);
+  const stack = useModalsStack(["gallery-modal", "warning-modal"]);
 
   return (
     <>
@@ -55,9 +56,10 @@ function ImageGalleryPicker({
           <div></div>
           <Button
             onClick={() => {
-              open();
+              stack.open("gallery-modal");
             }}
             color="dark"
+            variant="outline"
             className="px-6 py-2 !rounded-md md:mt-0 mt-6 sm:w-80"
           >
             {allImages && allImages.length > 0
@@ -67,10 +69,12 @@ function ImageGalleryPicker({
         </div>
       ) : (
         <div className="flex flex-col items-center justify-center gap-3 w-full max-w-[1000px] mx-auto">
-          <h1 className="text-xl font-bold text-center">No images</h1>
+          <h1 className="text-xl font-bold text-black text-center">
+            No images
+          </h1>
           <Button
             onClick={() => {
-              open();
+              stack.open("gallery-modal");
             }}
             color="dark"
             className="px-6 py-2 !rounded-md md:mt-0 mt-6 sm:w-80"
@@ -97,7 +101,7 @@ function ImageGalleryPicker({
               />
             </div>
 
-            <div className="my-2 z-[999] text-white font-bold">
+            <div className="my-2 z-[999] text-black font-bold">
               {image.comment}
             </div>
           </SwiperSlide>
@@ -144,28 +148,59 @@ function ImageGalleryPicker({
         ))}
       </Swiper>
 
-      <Modal
-        color="dark"
-        radius="lg"
-        size="xl"
-        opened={opened}
-        classNames={{
-          root: "!bg-zinc-800",
-          content: "!bg-zinc-900 !h-[500px]",
-          title: "!text-white !font-semibold !text-lg",
-          header: "!bg-zinc-800 !border-b !border-zinc-600",
-          close: "!bg-zinc-900 !text-white !shadow-lg !shadow-black/30",
-        }}
-        onClose={close}
-        title="Edit Profile"
-        centered
-      >
-        <ImageUpload
-          setAllImages={setAllImages}
-          allImages={allImages}
-          company={company}
-        ></ImageUpload>
-      </Modal>
+      <Modal.Stack>
+        <Modal
+          color="dark"
+          radius="md"
+          size="xl"
+          classNames={{
+            root: "!bg-white",
+            content: "!bg-white !h-[500px]",
+            title: "!text-black !font-semibold !text-lg",
+            header: "!bg-gray-100 !border-b !border-zinc-200",
+            close: "!bg-zinc-900 !text-white !shadow-lg !shadow-black/30",
+          }}
+          opened={stack.state["gallery-modal"]}
+          onClose={() => {
+            stack.open("warning-modal");
+          }}
+          closeOnClickOutside={false}
+          closeOnEscape={false}
+          title="Edit Images"
+          centered
+        >
+          <ImageUpload
+            setAllImages={setAllImages}
+            allImages={allImages}
+            company={company}
+          ></ImageUpload>
+        </Modal>
+
+        <Modal
+          radius="md"
+          classNames={{
+            root: "!bg-white",
+            content: "!bg-white",
+            title: "!font-bold",
+            header: "!bg-gray-100 !border-b !border-zinc-200",
+            close: "!bg-zinc-900 !text-white !shadow-lg !shadow-black/30",
+          }}
+          size="sm"
+          title="Are you sure?"
+          {...stack.register("warning-modal")}
+          closeOnClickOutside={false}
+          centered
+        >
+          <WarningModal
+            onClose={() => {
+              stack.close("warning-modal");
+            }}
+            onCloseAll={() => {
+              stack.closeAll();
+            }}
+          ></WarningModal>
+        </Modal>
+      </Modal.Stack>
     </>
   );
 }

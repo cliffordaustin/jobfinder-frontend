@@ -21,13 +21,13 @@ function ImageThumb({
   company?: CompanyProfile | null;
 }) {
   const [state, setState] = useState({
-    comment: "",
+    comment: file.comment || "",
     counter: 0,
   });
 
-  useEffect(() => {
-    if (file) file.comment = state.comment;
-  }, [state.comment]);
+  // useEffect(() => {
+  //   if (file) file.comment = state.comment;
+  // }, [state.comment]);
 
   const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setState({
@@ -45,7 +45,7 @@ function ImageThumb({
     <div className="w-full">
       <div
         className={
-          "w-full bg-zinc-900 py-2 rounded-md " +
+          "w-full bg-gray-200 py-2 rounded-md " +
           (file?.completedPercent === 100 ? "opacity-50" : "")
         }
       >
@@ -58,12 +58,12 @@ function ImageThumb({
             className="object-cover rounded-lg"
           />
 
-          <p className="text-gray-400 block w-2/4 truncate">
+          <p className="text-black block w-2/4 truncate">
             {"name" in file ? file.name : file.preview}
           </p>
           <div className="flex justify-end gap-8 flex-grow items-center">
             {"size" in file && (
-              <p className="text-gray-200">
+              <p className="text-gray-600">
                 {(file.size / 1_048_576).toFixed(2)}MB
               </p>
             )}
@@ -119,13 +119,16 @@ function ImageThumb({
       <div className="px-6">
         <Modal
           classNames={{
-            root: "!bg-zinc-800",
-            content: "!bg-zinc-800",
-            header: "!bg-zinc-800 !border-b !border-zinc-600",
+            root: "!bg-white",
+            content: "!bg-white",
+            header: "!bg-gray-100 !border-b border-zinc-200",
+            title: "!text-black !font-bold",
             close: "!bg-zinc-900 !text-white !shadow-lg !shadow-black/30",
           }}
           onClose={close}
           opened={opened}
+          title="Add comment"
+          radius="md"
           size="lg"
           centered
         >
@@ -139,9 +142,9 @@ function ImageThumb({
             variant="unstyled"
             size="md"
             classNames={{
-              input: "!text-white",
+              input: "!text-black",
               wrapper: "border border-gray-300 mt-1 rounded-md px-2",
-              label: "mb-1 text-white",
+              label: "mb-1 text-black",
             }}
           ></TextInput>
 

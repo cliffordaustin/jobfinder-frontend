@@ -15,6 +15,7 @@ import Seekers from "./Seekers";
 import SeekerDetail from "./SeekerDetail";
 import Image from "next/image";
 import { FaUser } from "react-icons/fa6";
+import { formatPhoneNumber } from "react-phone-number-input";
 
 function Job({
   company,
@@ -24,6 +25,7 @@ function Job({
   setCurrentSlide,
   swiper,
   setSwiper,
+  closeModal,
 }: {
   company?: CompanyProfile | null;
   job?: JobType | null;
@@ -32,15 +34,15 @@ function Job({
   setCurrentSlide?: React.Dispatch<React.SetStateAction<number | undefined>>;
   swiper?: SwiperCore;
   setSwiper?: (swiper: SwiperCore) => void;
+  closeModal?: () => void;
 }) {
   const [seekerDetailSlug, setSeekerDetailSlug] = useState<string | undefined>(
     ""
   );
   return (
     <Swiper
-      preventInteractionOnTransition={true}
       allowTouchMove={false}
-      autoHeight={true}
+      autoHeight={false}
       onSwiper={(swiper) => {
         setSwiper?.(swiper);
       }}
@@ -55,9 +57,9 @@ function Job({
         nextEl: ".swiper-button-next",
         prevEl: ".swiper-button-prev",
       }}
-      className="!text-white !h-auto"
+      className="!text-black !h-[75vh]"
     >
-      <SwiperSlide className="w-full p-4">
+      <SwiperSlide className="w-full p-4 overflow-y-auto">
         <div className="flex justify-center flex-col gap-4 items-center">
           {job?.company_profile_image ? (
             <div className="w-36 h-36 relative rounded-full">
@@ -94,7 +96,7 @@ function Job({
               </p>
             )}
             <p className="text-base font-medium">
-              Posted {moment(job?.date_posted).startOf("hour").fromNow()}
+              Posted {moment(job?.date_posted).fromNow()}
             </p>
           </div>
         </div>
@@ -102,7 +104,7 @@ function Job({
           {company && user && company.user === user.email ? (
             <Button
               onClick={() => {
-                swiper?.slideNext();
+                swiper?.slideTo(1);
               }}
               color="dark"
               size="md"
@@ -113,7 +115,7 @@ function Job({
           ) : (
             <Button
               onClick={() => {
-                swiper?.slideNext();
+                swiper?.slideTo(1);
               }}
               color="dark"
               size="md"
@@ -132,7 +134,7 @@ function Job({
           </Button>
         </div>
         {job?.description && (
-          <div className="prose prose-invert mt-10 prose-violet max-w-full">
+          <div className="prose mt-10 prose-violet max-w-full">
             {Parser(job.description)}
           </div>
         )}
@@ -140,7 +142,10 @@ function Job({
           <div className="w-2/4 px-4 py-2 rounded-md border-l-4 border-purple-600">
             <h3 className="font-bold text-lg">Salary</h3>
             {job?.salary ? (
-              <p className="mt-2">GH¢{job?.salary}</p>
+              <p className="mt-2">
+                GH¢{job?.salary} {job.salaryTo ? " - " : ""}{" "}
+                {job.salaryTo || ""} {job.salary_type}
+              </p>
             ) : (
               <p className="mt-2">No data</p>
             )}
@@ -153,7 +158,13 @@ function Job({
           </div>
           <div className="w-2/4 px-4 py-2 mt-4 rounded-md border-l-4 border-purple-600">
             <h3 className="font-bold text-lg">Phone Number</h3>
-            <p className="mt-2 truncate">{job?.phone_number}</p>
+            {job?.phone_number ? (
+              <p className="mt-2 truncate">
+                {formatPhoneNumber(job.phone_number)}
+              </p>
+            ) : (
+              "No data"
+            )}
           </div>
           <div className="w-2/4 px-4 py-2 mt-4 rounded-md border-l-4 border-purple-600">
             <h3 className="font-bold text-lg">Email address</h3>
@@ -175,6 +186,7 @@ function Job({
           job={job}
           user={user}
           setSeekerDetailSlug={setSeekerDetailSlug}
+          closeModal={closeModal}
         ></Seekers>
       </SwiperSlide>
 

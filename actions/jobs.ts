@@ -12,20 +12,54 @@ export async function getJobs(slug?: string): Promise<JobsData | null> {
     return null;
   }
 
-  const res = await fetch(
-    `${process.env.NEXT_PUBLIC_API_URL}/companies/${slug}/jobs/`,
-    {
-      headers: {
-        Authorization: `Token ${token}`,
-      },
-    }
-  );
+  try {
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/companies/${slug}/jobs/`,
+      {
+        headers: {
+          Authorization: `Token ${token}`,
+        },
+      }
+    );
 
-  if (!res.ok) {
+    if (!res.ok) {
+      return null;
+    }
+
+    jobs = await res.json();
+
+    return jobs;
+  } catch (error) {
     return null;
   }
+}
 
-  jobs = await res.json();
+export async function getAllJobs(): Promise<JobsData | null> {
+  let jobs: JobsData | null;
 
-  return jobs;
+  const token = (await cookies()).get("token")?.value;
+
+  try {
+    let res;
+
+    if (token) {
+      res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/jobs/`, {
+        headers: {
+          Authorization: `Token ${token}`,
+        },
+      });
+    } else {
+      res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/jobs/`);
+    }
+
+    if (!res.ok) {
+      return null;
+    }
+
+    jobs = await res.json();
+
+    return jobs;
+  } catch (error) {
+    return null;
+  }
 }

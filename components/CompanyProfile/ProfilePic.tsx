@@ -82,7 +82,7 @@ function ProfilePic({
       className="w-44 h-44 md:w-36 md:h-36 rounded-full relative cursor-pointer"
     >
       {company?.company_profile_image ? (
-        <div className="relative border-4 border-white/50 overflow-hidden w-full h-full rounded-full">
+        <div className="relative border-4 border-gray-300 overflow-hidden w-full h-full rounded-full">
           <Image
             src={company.company_profile_image}
             className="rounded-full object-cover"

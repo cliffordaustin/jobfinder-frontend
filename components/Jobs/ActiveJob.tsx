@@ -145,7 +145,7 @@ function ActiveJob({ user }: { user?: UserProfile | null }) {
                   </span>
                 </p>
                 <p className="text-base mt-1 font-medium mb-2">
-                  Posted {moment(job?.date_posted).startOf("hour").fromNow()}
+                  Posted {moment(job?.date_posted).fromNow()}
                 </p>
               </div>
               <div className="flex gap-5 items-center w-full mt-6">
@@ -350,16 +350,18 @@ function ActiveJob({ user }: { user?: UserProfile | null }) {
         </Swiper>
       </div>
       <Modal
-        radius="lg"
+        radius="md"
         opened={openedJobModal}
         onClose={closeJobModal}
         // title="Seekers"
         classNames={{
-          root: "!bg-zinc-800",
-          content: "!bg-zinc-800",
-          header: "!bg-zinc-800 !border-b !border-zinc-600",
+          root: "!bg-white",
+          content: "!bg-white",
+          header: "!bg-gray-100 !border-b !border-zinc-200",
+          close: "!bg-zinc-900 !text-white !shadow-lg !shadow-black/30",
         }}
         size={1100}
+        keepMounted
         centered
       >
         <JobComponent user={user} job={job}></JobComponent>

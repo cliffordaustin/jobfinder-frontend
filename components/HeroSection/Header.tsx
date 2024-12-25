@@ -5,7 +5,7 @@ function Header() {
   return (
     <header className="flex md:flex-row flex-col justify-between items-center px-8 md:px-12 mt-10 overflow-hidden">
       <div className="w-full md:w-[60%]">
-        <h1 className={"font-bold text-white text-3xl md:text-5xl mb-6 "}>
+        <h1 className={"font-bold text-black text-3xl md:text-5xl mb-6 "}>
           Start building your team just with a click
         </h1>
         <Button color="dark">Hire an intern</Button>
@@ -20,9 +20,9 @@ function Header() {
               alt=""
             />
           </div>
-          <h3 className="text-white">Software engineers</h3>
-          <h4 className="text-white font-bold">@Marco</h4>
-          <p className="text-white">
+          <h3 className="text-black">Software engineers</h3>
+          <h4 className="text-black font-bold">@Marco</h4>
+          <p className="text-black">
             Came accross Job finder about 6 months ago and I decided to apply
             for an internship in one of the many software companies in the
             platform. Came accross Marco, read about the companies and the

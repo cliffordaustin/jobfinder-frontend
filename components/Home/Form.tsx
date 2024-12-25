@@ -4,6 +4,7 @@ import { useState } from "react";
 import {
   Button,
   Container,
+  Divider,
   PasswordInput,
   Text,
   TextInput,
@@ -17,6 +18,7 @@ import { defaultToastStyle } from "@/utils/theme";
 import Link from "next/link";
 import { useToggle } from "@mantine/hooks";
 import nProgress from "nprogress";
+import { signIn } from "next-auth/react";
 
 export default function Form({
   login,
@@ -81,7 +83,8 @@ export default function Form({
 
     setLoading(false);
 
-    router.refresh();
+    nProgress.start();
+    router.push("/");
   };
 
   const handleSignup = async () => {
@@ -94,35 +97,40 @@ export default function Form({
       is_company: value === "company",
     };
 
-    const res = await fetch("api/auth/signup", {
-      method: "POST",
-      body: JSON.stringify(data),
-    });
+    try {
+      const res = await fetch("api/auth/signup", {
+        method: "POST",
+        body: JSON.stringify(data),
+      });
 
-    if (!res.ok) {
-      const errMessage: string = (await res.json())?.message;
+      if (!res.ok) {
+        const errMessage: string = (await res.json())?.message;
+        setLoading(false);
+        toast.error(errMessage, defaultToastStyle);
+
+        return;
+      }
+
+      toast.success("Successfully signed up", defaultToastStyle);
+
       setLoading(false);
-      toast.error(errMessage, defaultToastStyle);
 
-      return;
-    }
+      router.refresh();
 
-    toast.success("Successfully signed up", defaultToastStyle);
-
-    setLoading(false);
-
-    router.refresh();
-
-    if (value === "company") {
-      nProgress.start();
-      router.push("/company-setup");
+      if (value === "company") {
+        nProgress.start();
+        router.push("/company-setup");
+      }
+    } catch (error) {
+      setLoading(false);
+      toast.error("Something went wrong", defaultToastStyle);
     }
   };
 
   return (
     <div className="flex w-full">
       <div className="w-full">
-        <h1 className="text-3xl text-white font-bold mb-5 text-center">
+        <h1 className="text-3xl text-black font-bold mb-5 text-center">
           {login
             ? "Login to your account"
             : signup
@@ -140,20 +148,17 @@ export default function Form({
           })}
         >
           {signup && (
-            <Container
-              bg="dark.5"
-              className="my-4 h-[45px] p-2 relative w-full flex rounded-full"
-            >
+            <Container className="my-4 bg-black/5 h-[45px] p-2 relative w-full flex rounded-lg">
               <Container
                 className={
-                  "absolute transition-all duration-300 cursor-pointer top-2/4 -translate-y-2/4 h-[80%] w-[50%] z-10 bg-zinc-900/80 rounded-full " +
+                  "absolute transition-all duration-300 cursor-pointer top-2/4 -translate-y-2/4 h-[80%] w-[50%] z-10 bg-black/10 backdrop-blur-2xl rounded-lg " +
                   (value === "company" ? "left-2" : "right-2")
                 }
               ></Container>
               <Text
                 fw={600}
                 className="w-[50%] text-center cursor-pointer z-20"
-                c="dark.0"
+                // c="dark.6"
                 onClick={() => {
                   toggle();
                 }}
@@ -163,7 +168,7 @@ export default function Form({
               <Text
                 fw={600}
                 className="w-[50%] text-center cursor-pointer z-20"
-                c="dark.0"
+                // c="dark.6"
                 onClick={() => {
                   toggle();
                 }}
@@ -177,12 +182,12 @@ export default function Form({
               <TextInput
                 label="First Name"
                 variant="unstyled"
-                size="lg"
-                className="text-white w-[50%]"
+                size="md"
+                className="text-black w-[50%]"
                 placeholder="Enter your first name"
                 key={form.key("firstName")}
                 classNames={{
-                  input: "!text-white",
+                  input: "!text-black",
                   wrapper: "border border-gray-300 mt-1 rounded-md px-2",
                   label: "mb-1",
                 }}
@@ -192,12 +197,12 @@ export default function Form({
               <TextInput
                 label="Last Name"
                 variant="unstyled"
-                size="lg"
-                className="text-white w-[50%]"
+                size="md"
+                className="text-black w-[50%]"
                 placeholder="Enter your last name"
                 key={form.key("lastName")}
                 classNames={{
-                  input: "!text-white",
+                  input: "!text-black",
                   wrapper: "border border-gray-300 mt-1 rounded-md px-2",
                   label: "mb-1",
                 }}
@@ -209,12 +214,12 @@ export default function Form({
             withAsterisk
             label="Email"
             variant="unstyled"
-            size="lg"
-            className="text-white"
+            size="md"
+            className="text-black"
             placeholder="your@email.com"
             key={form.key("email")}
             classNames={{
-              input: "!text-white",
+              input: "!text-black",
               wrapper: "border border-gray-300 mt-1 rounded-md px-2",
               label: "mb-1",
             }}
@@ -224,12 +229,12 @@ export default function Form({
             withAsterisk
             label="Password"
             variant="unstyled"
-            size="lg"
-            className="text-white mt-4"
+            size="md"
+            className="text-black mt-4"
             placeholder="Password"
             key={form.key("password")}
             classNames={{
-              input: "!text-white",
+              input: "!text-black",
               wrapper: "border border-gray-300 mt-1 rounded-md px-2",
               label: "mb-1",
             }}
@@ -253,20 +258,22 @@ export default function Form({
           <div className="flex flex-col w-full">
             <Button
               type="submit"
-              color="dark.9"
-              radius="xl"
+              color="dark.8"
+              radius="md"
+              variant="outline"
               loading={loading}
               size="md"
               className={"mt-5 w-full " + (loading ? "opacity-60" : "")}
             >
-              {signup ? "Sign Up" : "Login"}
+              {signup ? "Sign Up" : "Login to your account"}
             </Button>
 
             <Button
               color="dark"
               size="md"
-              radius="xl"
+              radius="md"
               className="mt-3 w-full flex justify-center items-center gap-2"
+              onClick={() => signIn("google")}
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -299,12 +306,7 @@ export default function Form({
             </Button>
           </div>
         </form>
-
-        <div className="mt-5 flex gap-4 items-center">
-          <div className="flex-grow h-px bg-gray-300"></div>
-          <div className="text-sm font-bold text-white text-center">Or</div>
-          <div className="flex-grow h-px bg-gray-300"></div>
-        </div>
+        <Divider my="sm" label="Or" labelPosition="center" />
         <div className="flex justify-center items-center gap-1 mt-3">
           <Text size="sm" c="dimmed" mt={2}>
             {signup ? "Already have an account?" : "Don't have an account?"}
@@ -314,7 +316,7 @@ export default function Form({
               <Text
                 className="cursor-pointer hover:underline"
                 size="sm"
-                c="dark.1"
+                c="dark.3"
                 fw={700}
               >
                 Login
@@ -325,7 +327,7 @@ export default function Form({
               <Text
                 className="cursor-pointer hover:underline"
                 size="sm"
-                c="dark.1"
+                c="dark.3"
                 fw={700}
               >
                 Sign up

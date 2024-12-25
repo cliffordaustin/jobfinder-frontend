@@ -17,8 +17,8 @@ export default async function Home() {
 
       <div className="absolute -z-10 blur-3xl top-[150px] left-[200px] rounded-full w-[500px] h-[500px] bg-pink-500 bg-opacity-30"></div>
       <div className="absolute -z-10 blur-3xl top-[150px] right-[200px] rounded-full w-[500px] h-[500px] bg-purple-500 bg-opacity-30"></div>
-      <div className="max-w-[600px] mx-auto px-8 border-b border-gray-200 md:border-none md:my-20">
-        <Form></Form>
+      <div className="max-w-[550px] mx-auto px-8 border-b border-gray-200 md:border-none md:my-20">
+        <Form login={true}></Form>
       </div>
       <div>
         <Footer></Footer>

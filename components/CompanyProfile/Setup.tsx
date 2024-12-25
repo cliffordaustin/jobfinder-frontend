@@ -7,7 +7,7 @@ import axios from "axios";
 import TextEditor from "../TextEditor";
 import { useForm, zodResolver } from "@mantine/form";
 import { z } from "zod";
-import { Button, TextInput } from "@mantine/core";
+import { Button, NumberInput, TextInput } from "@mantine/core";
 import Image from "next/image";
 import { Swiper, SwiperSlide } from "swiper/react";
 import Select from "react-select";
@@ -123,7 +123,7 @@ function CompanySetup({ company }: { company?: CompanyProfile | null }) {
 
   useEffect(() => setIsMounted(true), []);
   return (
-    <div className="flex text-white relative">
+    <div className="flex text-black relative">
       {!company && (
         <div className="lg:w-2/4 fixed left-0 top-0 bottom-0 lg:block hidden flex-col justify-between">
           <div className="h-full relative w-full">
@@ -170,12 +170,12 @@ function CompanySetup({ company }: { company?: CompanyProfile | null }) {
               withAsterisk
               label="Company name"
               variant="unstyled"
-              size="lg"
-              className="text-white"
+              size="md"
+              className="text-black"
               placeholder="Company Name"
               key={form.key("companyName")}
               classNames={{
-                input: "!text-white",
+                input: "!text-black",
                 wrapper: "border border-gray-300 mt-1 rounded-md px-2",
                 label: "mb-1",
               }}
@@ -183,17 +183,16 @@ function CompanySetup({ company }: { company?: CompanyProfile | null }) {
               required
             />
 
-            <TextInput
+            <NumberInput
               withAsterisk
               label="Year started"
               variant="unstyled"
-              type="number"
-              size="lg"
-              className="text-white"
+              size="md"
+              className="text-black"
               placeholder="Year Started"
               key={form.key("yearStarted")}
               classNames={{
-                input: "!text-white",
+                input: "!text-black",
                 wrapper: "border border-gray-300 mt-1 rounded-md px-2",
                 label: "mb-1",
               }}
@@ -204,7 +203,8 @@ function CompanySetup({ company }: { company?: CompanyProfile | null }) {
             {isMounted && (
               <div className="flex flex-col gap-1">
                 <div className="flex items-center mb-2">
-                  <h3 className="font-bold">Number of employees</h3>
+                  <h3 className="font-bold">Number of employees </h3>
+                  <span className="text-red-600">*</span>
                 </div>
 
                 <Select
@@ -214,29 +214,29 @@ function CompanySetup({ company }: { company?: CompanyProfile | null }) {
                   menuPortalTarget={document.body}
                   classNames={{
                     menu(state) {
-                      return "!bg-zinc-700 !z-20";
+                      return "!bg-white !z-20";
                     },
 
                     control(state) {
                       return state.isFocused
-                        ? "!outline-none !text-white !text-lg !border-gray-300 !bg-zinc-900 p-1.5"
-                        : "!text-white !text-lg !border-gray-300 !bg-zinc-900 p-1.5";
+                        ? "!outline-none !text-black !border-gray-300 !bg-white p-[3px]"
+                        : "!text-black !border-gray-300 !bg-white p-[3px]";
                     },
 
                     input(state) {
-                      return "!text-white";
+                      return "!text-black";
                     },
 
                     option(state) {
                       return state.isSelected
-                        ? "!bg-zinc-900 cursor-pointer !text-white"
-                        : state.isFocused
                         ? "!bg-zinc-800 cursor-pointer !text-white"
-                        : "!text-white";
+                        : state.isFocused
+                        ? "!bg-gray-200 cursor-pointer !text-black"
+                        : "!text-black";
                     },
 
                     singleValue(state) {
-                      return "!text-gray-200";
+                      return "!text-gray-600";
                     },
                   }}
                   value={selectedEmployee}

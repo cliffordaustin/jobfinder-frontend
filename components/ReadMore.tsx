@@ -9,31 +9,33 @@ function ReadMore({ text, length }: { text: string; length: number }) {
     text.length > length && !isOpen ? text.slice(0, length) + "..." : text;
   return (
     <div className="flex flex-col">
-      <div className="text-base prose max-w-none prose-invert prose-violet">
+      <div className="text-base prose max-w-none prose-violet">
         {Parser(fText)}
       </div>
 
-      <div className="relative h-[80px] w-full">
-        <div
-          className={
-            "blur-2xl -mt-8 z-20 h-full w-full " +
-            (isOpen ? "bg-black/0" : "bg-black/40")
-          }
-        ></div>
+      {text.length > length && (
+        <div className="relative h-[80px] w-full">
+          <div
+            className={
+              "blur-2xl -mt-8 z-20 h-full w-full " +
+              (isOpen ? "bg-black/0" : "bg-white")
+            }
+          ></div>
 
-        <Button
-          size="md"
-          className="absolute -top-8"
-          classNames={{
-            root: "!w-full",
-          }}
-          onClick={() => setIsOpen(!isOpen)}
-          color="gray.2"
-          variant="outline"
-        >
-          {isOpen ? "Read less" : "Read more"}
-        </Button>
-      </div>
+          <Button
+            size="md"
+            className="absolute -top-8"
+            classNames={{
+              root: "!w-full",
+            }}
+            onClick={() => setIsOpen(!isOpen)}
+            color="gray.6"
+            variant="outline"
+          >
+            {isOpen ? "Read less" : "Read more"}
+          </Button>
+        </div>
+      )}
     </div>
   );
 }

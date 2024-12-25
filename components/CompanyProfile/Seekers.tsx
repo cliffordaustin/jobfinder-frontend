@@ -4,7 +4,7 @@ import {
   SeekerData,
   UserProfile,
 } from "@/types/api.types";
-import { Button, Loader, TextInput } from "@mantine/core";
+import { Button, Loader, NumberInput, TextInput } from "@mantine/core";
 import { useForm, zodResolver } from "@mantine/form";
 import { useQuery } from "@tanstack/react-query";
 import moment from "moment";
@@ -19,7 +19,10 @@ import toast from "react-hot-toast";
 import { defaultToastStyle } from "@/utils/theme";
 import Cookies from "js-cookie";
 import "react-phone-number-input/style.css";
-import PhoneInput, { isValidPhoneNumber } from "react-phone-number-input";
+import PhoneInput, {
+  isPossiblePhoneNumber,
+  isValidPhoneNumber,
+} from "react-phone-number-input";
 import { FaUser } from "react-icons/fa6";
 
 function Seekers({
@@ -28,6 +31,7 @@ function Seekers({
   job,
   swiper,
   setSeekerDetailSlug,
+  closeModal,
 }: {
   company?: CompanyProfile | null;
   user?: UserProfile | null;
@@ -36,22 +40,26 @@ function Seekers({
   setSeekerDetailSlug?: React.Dispatch<
     React.SetStateAction<string | undefined>
   >;
+  closeModal?: () => void;
 }) {
   const {
     isLoading,
     error,
     data: seekers,
   } = useQuery({
-    queryFn: async () =>
-      await fetch(
+    queryFn: async () => {
+      if (!job) return null;
+      return await fetch(
         `${process.env.NEXT_PUBLIC_API_URL}/jobs/${job?.slug}/seekers/`,
         {
           headers: {
             Authorization: `Token ${Cookies.get("token")}`,
           },
         }
-      ).then((res) => res.json() as Promise<SeekerData>),
+      ).then((res) => res.json() as Promise<SeekerData>);
+    },
     queryKey: ["seekers"],
+    enabled: !!job,
   });
 
   const [cv, setCv] = useState<{ file: File | null }>({
@@ -114,7 +122,7 @@ function Seekers({
       toast.error("Please upload your CV", defaultToastStyle);
       return;
     }
-    if (!isValidPhoneNumber(form.values.phone)) {
+    if (!isPossiblePhoneNumber(form.values.phone)) {
       toast.error("Please enter a valid phone number", defaultToastStyle);
       return;
     }
@@ -148,6 +156,8 @@ function Seekers({
       if (transcriptRef.current) transcriptRef.current.value = "";
       setCv({ file: null });
       setTranscript({ file: null });
+
+      closeModal?.();
       return;
     }
 
@@ -176,13 +186,13 @@ function Seekers({
   };
 
   const jobSeekerDetail = async (slug: string) => {
-    swiper?.slideNext();
+    swiper?.slideTo(2);
     setSeekerDetailSlug?.(slug);
   };
   return (
     <>
       {company && user && company.user === user.email ? (
-        <div className="h-full">
+        <div className="slide-content">
           {isLoading && (
             <div className="h-[90vh] relative">
               <div className="absolute top-[20%] left-2/4 -translate-x-2/4 -translate-y-2/4">
@@ -191,43 +201,44 @@ function Seekers({
             </div>
           )}
           {!isLoading && (
-            <div className="mt-4 h-[90vh]">
+            <div className="mt-4 h-[90vh] overflow-y-scroll">
               <h1 className="text-2xl font-bold mb-4">Applicants</h1>
-              {seekers?.results.map((seeker) => (
-                <div
-                  key={seeker.slug}
-                  onClick={() => jobSeekerDetail(seeker.slug)}
-                  className="bg-zinc-900 shadow-md mb-6 flex gap-4 px-4 py-5 rounded-lg cursor-pointer swiper-pagination swiper-button-prev"
-                >
-                  {seeker.user_profile_image ? (
-                    <div className="w-24 h-24 relative">
-                      <Image
-                        src={seeker.user_profile_image}
-                        className="rounded-full object-cover"
-                        alt=""
-                        fill
-                      />
+              {seekers &&
+                seekers?.results &&
+                seekers?.results.map((seeker) => (
+                  <div
+                    key={seeker.slug}
+                    onClick={() => jobSeekerDetail(seeker.slug)}
+                    className="bg-gray-100 mb-6 flex gap-4 px-4 py-5 rounded-lg cursor-pointer swiper-pagination swiper-button-prev"
+                  >
+                    {seeker.user_profile_image ? (
+                      <div className="w-24 h-24 relative">
+                        <Image
+                          src={seeker.user_profile_image}
+                          className="rounded-full object-cover"
+                          alt=""
+                          fill
+                        />
+                      </div>
+                    ) : (
+                      <div className="w-24 h-24 flex bg-gray-300 items-center justify-center relative rounded-full">
+                        <FaUser size={60} />
+                      </div>
+                    )}
+                    <div>
+                      <h1 className="font-bold text-xl mb-2">{seeker.name}</h1>
+                      <p className="mb-1">{seeker.email}</p>
+                      <p className="text-base font-medium mb-2">
+                        Applied {moment(seeker.date_posted).fromNow()}
+                      </p>
                     </div>
-                  ) : (
-                    <div className="w-24 h-24 flex bg-gray-300 items-center justify-center relative rounded-full">
-                      <FaUser size={60} />
-                    </div>
-                  )}
-                  <div>
-                    <h1 className="font-bold text-xl mb-2">{seeker.name}</h1>
-                    <p className="mb-1">{seeker.email}</p>
-                    <p className="text-base font-medium mb-2">
-                      Applied{" "}
-                      {moment(seeker.date_posted).startOf("hour").fromNow()}
-                    </p>
                   </div>
-                </div>
-              ))}
+                ))}
             </div>
           )}
         </div>
       ) : (
-        <div className="h-full relative">
+        <div className="slide-content">
           {/* <div className="swiper-pagination fixed -top-10 z-50 swiper-button-prev cursor-pointer flex items-center gap-2">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -253,7 +264,7 @@ function Seekers({
                 <div className="flex gap-4 items-center">
                   <label
                     htmlFor="cv"
-                    className="w-[120px] cursor-pointer flex items-center justify-center bg-zinc-900 rounded-md z-10 h-[45px]"
+                    className="w-[120px] text-white cursor-pointer flex items-center justify-center bg-zinc-800 rounded-md z-10 h-[45px]"
                   >
                     Upload
                   </label>
@@ -299,7 +310,7 @@ function Seekers({
                 <div className="flex gap-4 items-center">
                   <label
                     htmlFor="transcript"
-                    className="w-[120px] flex items-center justify-center cursor-pointer bg-zinc-900 rounded-md z-10 h-[45px]"
+                    className="w-[120px] text-white flex items-center justify-center cursor-pointer bg-zinc-800 rounded-md z-10 h-[45px]"
                   >
                     Upload
                   </label>
@@ -341,12 +352,10 @@ function Seekers({
                   withAsterisk
                   label="Email"
                   variant="unstyled"
-                  size="lg"
-                  className="text-white"
+                  size="md"
                   placeholder="your@email.com"
                   key={form.key("email")}
                   classNames={{
-                    input: "!text-white",
                     wrapper: "border border-gray-300 mt-1 rounded-md px-2",
                     label: "mb-1",
                   }}
@@ -354,22 +363,6 @@ function Seekers({
                 ></TextInput>
               </div>
               <div className="mt-6">
-                {/* <TextInput
-                  name="phone"
-                  label="Phone Number"
-                  placeholder="Phone Number"
-                  type="text"
-                  variant="unstyled"
-                  size="lg"
-                  className="text-white"
-                  key={form.key("phone")}
-                  classNames={{
-                    input: "!text-white",
-                    wrapper: "border border-gray-300 mt-1 rounded-md px-2",
-                    label: "mb-1",
-                  }}
-                  {...form.getInputProps("phone")}
-                ></TextInput> */}
                 <div className="flex flex-col gap-2">
                   <h3 className="text-base">Phone Number</h3>
 
@@ -378,6 +371,10 @@ function Seekers({
                     value={form.values.phone}
                     onChange={(value) => {
                       if (value) form.setFieldValue("phone", value);
+                    }}
+                    numberInputProps={{
+                      className:
+                        "!border-y border-gray-300 outline-none px-2 !border-r rounded-r-md !py-3",
                     }}
                     defaultCountry="GH"
                   />

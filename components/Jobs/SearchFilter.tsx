@@ -54,11 +54,9 @@ function SearchFilter() {
             name="name"
             variant="unstyled"
             size="md"
-            className="text-white"
             value={job.name}
             placeholder="Search jobs"
             classNames={{
-              input: "!text-white",
               wrapper: "border border-gray-300 mt-1 rounded-md px-2",
               label: "mb-1",
             }}
@@ -70,10 +68,8 @@ function SearchFilter() {
             name="location"
             variant="unstyled"
             size="md"
-            className="text-white"
             value={job.location}
             classNames={{
-              input: "!text-white",
               wrapper: "border border-gray-300 mt-1 rounded-md px-2",
               label: "mb-1",
             }}

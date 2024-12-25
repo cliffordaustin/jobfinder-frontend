@@ -9,10 +9,11 @@ import "swiper/css/thumbs";
 
 import { CompanyProfile, Job, JobsData, UserProfile } from "@/types/api.types";
 import moment from "moment";
-import { Button, Modal } from "@mantine/core";
+import { Button, Modal, useModalsStack } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import SwiperCore from "swiper";
 import JobComponent from "./Job";
+import WarningModal from "../WarningModal";
 
 function Jobs({
   jobs,
@@ -40,12 +41,12 @@ function Jobs({
     swiperIndex: 0,
   });
 
-  const [opened, { open: open, close: close }] = useDisclosure(false);
-
   const [selectedJob, setSelectedJob] = React.useState<Job | null>(null);
   const [currentSlide, setCurrentSlide] = React.useState<number | undefined>(0);
 
   const [swiper, setSwiper] = React.useState<SwiperCore>();
+
+  const stack = useModalsStack(["job-modal", "warning-modal"]);
   return (
     <Swiper
       {...settings}
@@ -64,7 +65,7 @@ function Jobs({
       {jobs?.results.map((job) => (
         <SwiperSlide
           key={job.slug}
-          className="px-5 py-5 shadow-lg bg-zinc-800 rounded-xl !w-72"
+          className="px-5 py-5 shadow-lg bg-gray-100 rounded-xl !w-72"
         >
           <h1 className="text-xl truncate mb-2 font-bold">{job.job_title}</h1>
           <p className="text-base truncate">
@@ -85,13 +86,13 @@ function Jobs({
           )}
           <div className="mt-10">
             <p className="text-base font-medium mb-2">
-              Posted {moment(job.date_posted).startOf("hour").fromNow()}
+              Posted {moment(job.date_posted).fromNow()}
             </p>
 
             <Button
               onClick={() => {
                 setSelectedJob(job);
-                open();
+                stack.open("job-modal");
               }}
               color="dark"
               className="w-full rounded-md"
@@ -140,64 +141,95 @@ function Jobs({
         </svg>
       </div>
 
-      <Modal
-        radius="lg"
-        opened={opened}
-        onClose={() => {
-          setCurrentSlide(0);
-          close();
-        }}
-        title={
-          currentSlide === 1 || currentSlide === 2 ? (
-            <div
-              onClick={() => {
-                swiper?.slidePrev();
-              }}
-              className="swiper-pagination swiper-button-prev cursor-pointer flex items-center gap-2 mt-2"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-6 w-6 text-purple-600"
-                viewBox="0 0 20 20"
-                fill="currentColor"
+      <Modal.Stack>
+        <Modal
+          radius="md"
+          opened={stack.state["job-modal"]}
+          onClose={() => {
+            stack.open("warning-modal");
+          }}
+          closeOnClickOutside={false}
+          closeOnEscape={false}
+          title={
+            currentSlide === 1 || currentSlide === 2 ? (
+              <div
+                onClick={() => {
+                  swiper?.slidePrev();
+                }}
+                className="swiper-pagination swiper-button-prev cursor-pointer flex items-center gap-2 mt-2"
               >
-                <path
-                  fillRule="evenodd"
-                  d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z"
-                  clipRule="evenodd"
-                />
-              </svg>
-              <h3 className="font-bold text-purple-600">
-                {currentSlide === 1
-                  ? "Job Info"
-                  : currentSlide === 2
-                  ? "Applicants"
-                  : ""}
-              </h3>
-            </div>
-          ) : (
-            <></>
-          )
-        }
-        classNames={{
-          root: "!bg-zinc-800",
-          content: "!bg-zinc-800",
-          header: "!bg-zinc-800 !border-b !border-zinc-600",
-          close: "!bg-zinc-900 !text-white !shadow-lg !shadow-black/30",
-        }}
-        size={1100}
-        centered
-      >
-        <JobComponent
-          company={company}
-          currentSlide={currentSlide}
-          setCurrentSlide={setCurrentSlide}
-          user={user}
-          setSwiper={setSwiper}
-          swiper={swiper}
-          job={selectedJob}
-        ></JobComponent>
-      </Modal>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-6 w-6 text-purple-600"
+                  viewBox="0 0 20 20"
+                  fill="currentColor"
+                >
+                  <path
+                    fillRule="evenodd"
+                    d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z"
+                    clipRule="evenodd"
+                  />
+                </svg>
+                <h3 className="font-bold text-purple-600">
+                  {currentSlide === 1
+                    ? "Job Info"
+                    : currentSlide === 2
+                    ? "Applicants"
+                    : ""}
+                </h3>
+              </div>
+            ) : (
+              <></>
+            )
+          }
+          classNames={{
+            root: "!bg-white",
+            content: "!bg-white !h-[500px]",
+            header: "!bg-gray-100 !border-b !border-zinc-200",
+            close: "!bg-zinc-900 !text-white !shadow-lg !shadow-black/30",
+          }}
+          size={1100}
+          keepMounted
+          centered
+        >
+          <JobComponent
+            company={company}
+            currentSlide={currentSlide}
+            setCurrentSlide={setCurrentSlide}
+            user={user}
+            setSwiper={setSwiper}
+            swiper={swiper}
+            job={selectedJob}
+          ></JobComponent>
+        </Modal>
+
+        <Modal
+          radius="md"
+          classNames={{
+            root: "!bg-white",
+            content: "!bg-white",
+            title: "!font-bold",
+            header: "!bg-gray-100 !border-b !border-zinc-200",
+            close: "!bg-zinc-900 !text-white !shadow-lg !shadow-black/30",
+          }}
+          size="sm"
+          title="Are you sure?"
+          {...stack.register("warning-modal")}
+          closeOnClickOutside={false}
+          centered
+        >
+          <WarningModal
+            onClose={() => {
+              stack.close("warning-modal");
+            }}
+            onCloseAll={() => {
+              setCurrentSlide(0);
+              swiper?.slideTo(0, 0);
+              stack.closeAll();
+            }}
+          ></WarningModal>
+        </Modal>
+      </Modal.Stack>
     </Swiper>
   );
 }

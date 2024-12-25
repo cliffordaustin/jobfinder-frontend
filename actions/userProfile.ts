@@ -8,17 +8,21 @@ export async function getUserProfile(): Promise<UserProfile[] | null> {
 
   const token = (await cookies()).get("token")?.value;
 
-  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/user/`, {
-    headers: {
-      Authorization: `Token ${token}`,
-    },
-  });
+  try {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/user/`, {
+      headers: {
+        Authorization: `Token ${token}`,
+      },
+    });
 
-  if (!res.ok) {
+    if (!res.ok) {
+      return null;
+    }
+
+    user = await res.json();
+
+    return user;
+  } catch (error) {
     return null;
   }
-
-  user = await res.json();
-
-  return user;
 }

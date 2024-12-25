@@ -12,7 +12,7 @@ async function CompanyProfile() {
   const jobs = await getJobs(company?.slug);
 
   return (
-    <div className="text-white">
+    <div className="text-black">
       <NavbarComponent user={user?.[0]}></NavbarComponent>
       <Profile user={user?.[0]} company={company} jobs={jobs}></Profile>
       <div className="mt-20">
