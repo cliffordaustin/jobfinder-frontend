@@ -127,6 +127,8 @@ export default function Form({
     }
   };
 
+  const [googleLoading, setGoogleLoading] = useState(false);
+
   return (
     <div className="flex w-full">
       <div className="w-full">
@@ -273,7 +275,17 @@ export default function Form({
               size="md"
               radius="md"
               className="mt-3 w-full flex justify-center items-center gap-2"
-              onClick={() => signIn("google")}
+              onClick={async () => {
+                try {
+                  setGoogleLoading(true);
+                  await signIn("google");
+                  nProgress.start();
+                  router.push("/");
+                } catch (error) {
+                  setGoogleLoading(false);
+                  console.log(error);
+                }
+              }}
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
