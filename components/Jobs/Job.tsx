@@ -1,7 +1,7 @@
 "use client";
 
 import { Job as JobType, UserProfile } from "@/types/api.types";
-import React, { useEffect } from "react";
+import React from "react";
 import moment from "moment";
 import SwiperCore from "swiper";
 import { useRouter, useSearchParams } from "next/navigation";
