@@ -11,13 +11,13 @@ function Header() {
         </h1>
         <Button color="dark">Hire an intern</Button>
       </div>
-      <div className="w-full md:w-2/5 md:relative md:-mr-20">
+      {/* <div className="w-full md:w-2/5 md:relative md:-mr-20">
         <div className="w-600 h-600 circle-gradient rounded-full hidden md:block"></div>
         <div className="md:mt-0 mt-6 md:px-6 px-3 py-4 flex flex-col items-center gap-1 rounded-lg circle-gradient lg:w-500 md:absolute md:top-40 md:-left-52">
           <div className="w-20 h-20 relative rounded-full">
             <Image
               className="rounded-full object-cover"
-              src="./images/image1.jpg"
+              src="/images/image1.jpg"
               alt=""
               fill
             />
@@ -33,7 +33,7 @@ function Header() {
             working as an intern, I am now a software engineer
           </p>
         </div>
-      </div>
+      </div> */}
     </header>
   );
 }

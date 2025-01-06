@@ -10,7 +10,7 @@ const nextConfig: NextConfig = {
       },
       {
         protocol: "https",
-        hostname: "jobfinder-bucket.s3.amazonaws.com",
+        hostname: "jobfinder-storage.s3.us-west-2.amazonaws.com",
         port: "",
       },
     ],
