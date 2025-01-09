@@ -21,7 +21,7 @@ const Items = ({ title, text, children }: ItemsProps) => {
       ref={ref}
       onMouseOver={() => setItemMouseOver(true)}
       onMouseLeave={() => setItemMouseOver(false)}
-      className="md:w-[425px] rounded-lg bg-white p-8 relative overflow-hidden"
+      className="md:w-[425px] border rounded-lg bg-white p-8 relative overflow-hidden"
     >
       <div className="absolute top-0 left-0 w-full h-full bg-white/20 blur-sm"></div>
       <motion.div

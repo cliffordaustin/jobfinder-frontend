@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, use, useMemo } from "react";
 import { useDropzone } from "react-dropzone";
 import { useRouter } from "next/navigation";
 import Cookies from "js-cookie";
@@ -50,12 +50,16 @@ function ImageUpload({
     [files]
   );
 
-  const images: ImageFile[] | undefined = allImages?.map((image) => ({
-    id: `${image.id}`,
-    preview: image.image,
-    comment: image.comment || "",
-    completedPercent: 0,
-  }));
+  const images: ImageFile[] | undefined = useMemo(() => {
+    if (allImages) {
+      return allImages.map((image) => ({
+        id: `${image.id}`,
+        preview: image.image,
+        comment: image.comment || "",
+        completedPercent: 0,
+      }));
+    }
+  }, [allImages]);
 
   useEffect(() => {
     if (images) {
@@ -205,7 +209,7 @@ function ImageUpload({
   ));
 
   return (
-    <div className="py-4 sm:px-6 px-2">
+    <div className="py-4 sm:px-6">
       <div className="mx-auto mt-8 max-w-3xl bg-gray-100 rounded-lg max-h-600 overflow-y-scroll sm:px-12 px-6 py-8">
         <h1 className="font-bold text-center text-2xl text-black">
           Upload your images

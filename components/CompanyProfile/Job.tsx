@@ -42,7 +42,7 @@ function Job({
   return (
     <Swiper
       allowTouchMove={false}
-      autoHeight={false}
+      autoHeight={true}
       onSwiper={(swiper) => {
         setSwiper?.(swiper);
       }}
@@ -57,9 +57,9 @@ function Job({
         nextEl: ".swiper-button-next",
         prevEl: ".swiper-button-prev",
       }}
-      className="!text-black !h-[75vh]"
+      className="!text-black md:!h-[75vh]"
     >
-      <SwiperSlide className="w-full p-4 overflow-y-auto">
+      <SwiperSlide className="w-full">
         <div className="flex justify-center flex-col gap-4 items-center">
           {job?.company_profile_image ? (
             <div className="w-36 h-36 relative rounded-full">
@@ -77,7 +77,7 @@ function Job({
           )}
           <div className="flex flex-col items-center gap-2">
             <h1 className="lg:text-2xl text-xl font-bold">{job?.job_title}</h1>
-            <p className="truncate text-lg">
+            <p className="md:truncate text-center text-base md:text-lg">
               {job?.remote && job?.address
                 ? job?.address + "(Remote)"
                 : job?.remote && !job?.address
@@ -179,7 +179,7 @@ function Job({
         </div>
       </SwiperSlide>
 
-      <SwiperSlide className="w-full p-4 relative">
+      <SwiperSlide className="w-full relative">
         <Seekers
           swiper={swiper}
           company={company}
@@ -190,7 +190,7 @@ function Job({
         ></Seekers>
       </SwiperSlide>
 
-      <SwiperSlide className="w-full p-4 relative">
+      <SwiperSlide className="w-full md:p-4 p-2 relative">
         <SeekerDetail
           company={company}
           user={user}

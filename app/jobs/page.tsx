@@ -14,7 +14,7 @@ async function Jobs() {
   return (
     <div className="text-white">
       <NavbarComponent user={user?.[0]}></NavbarComponent>
-      <div className="w-[1200px] mx-auto">
+      <div className="max-w-[1200px] mx-auto">
         <JobsComponent jobs={jobs} user={user?.[0]}></JobsComponent>
       </div>
       <div className="mt-12">

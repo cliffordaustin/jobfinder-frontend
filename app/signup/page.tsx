@@ -6,7 +6,7 @@ function Login() {
   return (
     <div>
       <NavbarComponent></NavbarComponent>
-      <div className="w-[450px] mx-auto my-8">
+      <div className="max-w-[450px] px-6 md:px-0 mx-auto my-8">
         <Form signup={true}></Form>
       </div>
     </div>

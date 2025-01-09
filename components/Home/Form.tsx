@@ -132,7 +132,7 @@ export default function Form({
   return (
     <div className="flex w-full">
       <div className="w-full">
-        <h1 className="text-3xl text-black font-bold mb-5 text-center">
+        <h1 className="text-2xl md:text-3xl text-black font-bold mb-5 text-center">
           {login
             ? "Login to your account"
             : signup

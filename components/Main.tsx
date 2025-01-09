@@ -6,7 +6,7 @@ import useMouseMove from "../utils/useMouseMove";
 
 function Main() {
   return (
-    <div className="flex overflow-hidden py-10 md:py-0 md:flex-row flex-col md:gap-6 gap-6 md:px-10 px-8 justify-between mt-16 md:mt-20 mb-10">
+    <div className="flex overflow-hidden py-5 md:py-0 md:flex-row flex-col md:gap-6 gap-6 md:px-10 px-6 justify-between mt-8 md:mt-20 mb-10">
       <Items
         title="Profile Based Choice"
         text="We at job finder believe in the mentality of knowing a company before getting in, that's why we created an easy way of getting to know about a company before applying"

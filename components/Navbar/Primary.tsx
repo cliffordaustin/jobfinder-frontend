@@ -39,13 +39,13 @@ const NavbarComponent = ({ user }: { user?: UserProfile | null }) => {
   };
   return (
     <div className="flex px-5 border-b border-b-zinc-200 bg-white/40 backdrop-blur-sm sticky top-0 left-0 right-0 z-50 md:px-20 py-4 justify-between items-center">
-      <div className="md:hidden">
+      {/* <div className="md:hidden">
         <Burger></Burger>
-      </div>
+      </div> */}
       <Link href={{ pathname: "/" }}>
         <Logo type="small"></Logo>
       </Link>
-      <div className="flex items-center text-black font-semibold md:gap-8">
+      <div className="flex items-center text-black font-semibold gap-3 md:gap-8">
         {!user?.is_company ? (
           <Link
             className="text-base cursor-pointer hidden md:block"

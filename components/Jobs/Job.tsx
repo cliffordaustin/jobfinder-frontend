@@ -11,6 +11,7 @@ import { useDisclosure } from "@mantine/hooks";
 import JobComponent from "../CompanyProfile/Job";
 import { FaUser } from "react-icons/fa6";
 import WarningModal from "../WarningModal";
+import useMobile from "@/utils/useMobile";
 
 function Job({ job, user }: { job: JobType; user?: UserProfile | null }) {
   const router = useRouter();
@@ -25,6 +26,8 @@ function Job({ job, user }: { job: JobType; user?: UserProfile | null }) {
 
   const stack = useModalsStack(["job-modal", "warning-modal"]);
 
+  const isMobile = useMobile();
+
   return (
     <>
       <div
@@ -32,7 +35,7 @@ function Job({ job, user }: { job: JobType; user?: UserProfile | null }) {
           stack.open("job-modal");
         }}
         className={
-          "px-6 py-4 rounded-md text-black bg-gray-100 flex-col sm:flex-row lg:flex-col items-center cursor-pointer w-full "
+          "px-6 py-4 border rounded-md text-black bg-gray-100 flex-col sm:flex-row lg:flex-col items-center cursor-pointer w-full "
         }
       >
         <div className="flex items-center justify-center">
@@ -123,6 +126,7 @@ function Job({ job, user }: { job: JobType; user?: UserProfile | null }) {
           }}
           closeOnClickOutside={false}
           closeOnEscape={false}
+          fullScreen={isMobile}
           centered
         >
           <JobComponent

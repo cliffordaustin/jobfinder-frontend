@@ -56,7 +56,6 @@ ul {
 .slide-content {
   height: 100%; /* Make content take full height */
   overflow-y: auto; /* Enable scroll on overflow */
-  padding: 16px; /* Optional padding */
   box-sizing: border-box;
 }
 

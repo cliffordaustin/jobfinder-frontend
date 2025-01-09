@@ -101,9 +101,9 @@ function SeekerDetail({
       {company?.user === user?.email ? (
         <>
           {isLoading && (
-            <div className="relative">
-              <div className="absolute mt-16 left-2/4 -translate-x-2/4 -translate-y-2/4">
-                <Loader size={30} />
+            <div className="h-[90vh] relative">
+              <div className="absolute top-[20%] left-2/4 -translate-x-2/4 -translate-y-2/4">
+                <Loader color="violet" size={"lg"}></Loader>
               </div>
             </div>
           )}
@@ -132,7 +132,7 @@ function SeekerDetail({
                   Applied {moment(seeker?.date_posted).fromNow()}
                 </p>
               </div>
-              <div className="flex gap-5 items-center justify-center w-full mt-6">
+              <div className="flex md:flex-row flex-col gap-5 items-center justify-center w-full mt-6">
                 {seeker?.cv && (
                   <Button
                     onClick={() => downloadCv(seeker?.cv)}

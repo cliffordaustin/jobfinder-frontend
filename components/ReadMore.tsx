@@ -29,7 +29,7 @@ function ReadMore({ text, length }: { text: string; length: number }) {
               root: "!w-full",
             }}
             onClick={() => setIsOpen(!isOpen)}
-            color="gray.6"
+            color="gray.8"
             variant="outline"
           >
             {isOpen ? "Read less" : "Read more"}

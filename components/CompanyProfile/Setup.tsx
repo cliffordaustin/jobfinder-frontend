@@ -55,7 +55,7 @@ function CompanySetup({ company }: { company?: CompanyProfile | null }) {
     validate: zodResolver(
       z.object({
         companyName: z.string().max(500, "This field has a max lenght of 500"),
-        yearStarted: z.string(),
+        yearStarted: z.number().min(1900, "Please enter a valid year"),
         aboutCompany: z.string(),
         companyValues: z.string(),
       })
@@ -149,8 +149,8 @@ function CompanySetup({ company }: { company?: CompanyProfile | null }) {
       >
         <SwiperSlide>
           {!company && (
-            <div className="p-4 border-b border-gray-300">
-              <h1 className="text-3xl md:px-10 sm:px-5 px-2 font-bold">
+            <div className="md:p-4 border-b border-gray-300">
+              <h1 className="py-3 text-2xl md:text-3xl md:px-10 sm:px-5 px-4 font-bold">
                 Build your profile to attract more Interns.
               </h1>
             </div>
@@ -164,7 +164,7 @@ function CompanySetup({ company }: { company?: CompanyProfile | null }) {
                 handleSubmit();
               }
             })}
-            className="px-8 flex flex-col gap-3 mt-4"
+            className="px-3 md:px-8 flex flex-col gap-3 mt-4"
           >
             <TextInput
               withAsterisk

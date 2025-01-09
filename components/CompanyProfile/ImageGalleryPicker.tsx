@@ -16,6 +16,7 @@ import { useDisclosure } from "@mantine/hooks";
 import { Button, Modal, useModalsStack } from "@mantine/core";
 import ImageUpload from "./ImageUpload";
 import WarningModal from "../WarningModal";
+import useMobile from "@/utils/useMobile";
 
 function ImageGalleryPicker({
   images,
@@ -49,10 +50,12 @@ function ImageGalleryPicker({
 
   const stack = useModalsStack(["gallery-modal", "warning-modal"]);
 
+  const isMobile = useMobile();
+
   return (
     <>
       {allImages && allImages.length > 0 ? (
-        <div className="my-2 flex items-center justify-between w-full max-w-[1000px] mx-auto">
+        <div className="my-2 px-3 md:px-0 flex items-center justify-between w-full max-w-[1000px] mx-auto">
           <div></div>
           <Button
             onClick={() => {
@@ -88,11 +91,11 @@ function ImageGalleryPicker({
         onSwiper={(swiper) => setAllowGallerySlideNext(swiper.allowSlideNext)}
         onSlideChange={(swiper) => setGallerySwiperIndex(swiper.realIndex)}
         thumbs={{ swiper: thumbsSwiper }}
-        className="!mb-4 relative select-none w-full lg:w-[1000px] mx-auto"
+        className="!h-fit relative select-none w-full lg:w-[1000px] mx-auto"
       >
         {allImages?.map((image) => (
           <SwiperSlide key={image.id}>
-            <div className="relative w-full !h-[430px]">
+            <div className="relative w-full !h-[320px] md:!h-[430px]">
               <Image
                 className="select-none object-cover"
                 src={image.image}
@@ -101,7 +104,7 @@ function ImageGalleryPicker({
               />
             </div>
 
-            <div className="my-2 z-[999] text-black font-bold">
+            <div className="my-2 z-10 px-2 text-black font-bold">
               {image.comment}
             </div>
           </SwiperSlide>
@@ -131,7 +134,7 @@ function ImageGalleryPicker({
         slidesPerView={"auto"}
         freeMode={true}
         watchSlidesProgress={true}
-        className="image-picker-container cursor-grab select-none max-w-[1000px]"
+        className="image-picker-container cursor-grab select-none w-full md:max-w-[1000px] md:w-fit"
       >
         {allImages?.map((image) => (
           <SwiperSlide
@@ -155,7 +158,7 @@ function ImageGalleryPicker({
           size="xl"
           classNames={{
             root: "!bg-white",
-            content: "!bg-white !h-[500px]",
+            content: "!bg-white md:!h-[500px]",
             title: "!text-black !font-semibold !text-lg",
             header: "!bg-gray-100 !border-b !border-zinc-200",
             close: "!bg-zinc-900 !text-white !shadow-lg !shadow-black/30",
@@ -167,6 +170,7 @@ function ImageGalleryPicker({
           closeOnClickOutside={false}
           closeOnEscape={false}
           title="Edit Images"
+          fullScreen={isMobile}
           centered
         >
           <ImageUpload

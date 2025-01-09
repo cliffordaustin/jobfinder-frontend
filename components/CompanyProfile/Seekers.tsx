@@ -192,7 +192,7 @@ function Seekers({
   return (
     <>
       {company && user && company.user === user.email ? (
-        <div className="slide-content">
+        <div className="slide-content md:p-4">
           {isLoading && (
             <div className="h-[90vh] relative">
               <div className="absolute top-[20%] left-2/4 -translate-x-2/4 -translate-y-2/4">
@@ -238,7 +238,7 @@ function Seekers({
           )}
         </div>
       ) : (
-        <div className="slide-content">
+        <div className="slide-content md:p-4">
           {/* <div className="swiper-pagination fixed -top-10 z-50 swiper-button-prev cursor-pointer flex items-center gap-2">
             <svg
               xmlns="http://www.w3.org/2000/svg"

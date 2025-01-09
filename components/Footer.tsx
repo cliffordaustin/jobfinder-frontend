@@ -6,7 +6,7 @@ import { AiFillInstagram } from "react-icons/ai";
 
 export default function Footer() {
   return (
-    <div className="flex bg-gray-100 text-black flex-col py-8 md:items-center md:px-0 sm:px-20 px-10">
+    <div className="flex bg-gray-100 text-black flex-col py-8 md:items-center md:px-0 sm:px-16 px-6">
       <div className="mb-10">
         <Logo type="large"></Logo>
       </div>

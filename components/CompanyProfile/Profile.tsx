@@ -13,6 +13,7 @@ import { useDisclosure } from "@mantine/hooks";
 import CompanySetup from "./Setup";
 import PostJob from "./PostJob";
 import WarningModal from "../WarningModal";
+import useMobile from "@/utils/useMobile";
 
 function Profile({
   user,
@@ -35,12 +36,14 @@ function Profile({
     "company-profile-jobs-warning",
   ]);
 
+  const isMobile = useMobile();
+
   return (
     <div>
-      <div className="mt-10 md:px-20 border-b-[1px] border-gray-200 py-4 px-8 flex md:flex-row flex-col md:justify-between md:items-center sm:items-center justify-center">
+      <div className="mt-0 md:mt-10 md:px-20 border-b-[1px] border-gray-200 py-4 px-8 flex md:flex-row flex-col md:justify-between md:items-center sm:items-center justify-center">
         <div className="flex md:flex-row flex-col gap-4 items-center justify-center">
           <ProfilePic user={user} company={company}></ProfilePic>
-          <div className="flex flex-col gap-2">
+          <div className="flex flex-col gap-1 md:gap-2">
             <h1 className="text-2xl font-bold text-center md:text-left">
               {company?.company_name}
             </h1>
@@ -52,7 +55,7 @@ function Profile({
             </p>
           </div>
         </div>
-        <div className="flex items-center gap-2">
+        <div className="flex items-center justify-center gap-2">
           <Button
             onClick={() => {
               profileStack.open("company-profile");
@@ -79,7 +82,7 @@ function Profile({
           </Button>
         </div>
       </div>
-      <div className="flex flex-col mt-10">
+      <div className="flex flex-col mt-2 md:mt-10">
         {/* <div className="flex items-center justify-between md:px-20 px-6 mb-8 md:mt-10 mt-5">
           <div className="text-2xl font-standardTT font-bold"></div>
           <div
@@ -107,10 +110,10 @@ function Profile({
       </div>
       {company?.about_company && (
         <div className="flex flex-col mt-10 md:px-20 px-6">
-          <div className="text-2xl mb-8 font-standardTT font-bold">
+          <div className="text-xl md:text-2xl mb-4 md:mb-8 font-standardTT font-bold">
             About Company
           </div>
-          <div className="md:pl-8 pl-4">
+          <div className="md:pl-8">
             <div className="text-base whitespace-pre-wrap">
               <ReadMore
                 text={company?.about_company || ""}
@@ -121,11 +124,11 @@ function Profile({
         </div>
       )}
       {company?.company_values && (
-        <div className="flex flex-col mt-10 md:px-20 px-6">
-          <div className="text-2xl mb-8 font-standardTT font-bold">
+        <div className="flex flex-col mt-3 md:mt-10 md:px-20 px-6">
+          <div className="text-xl md:text-2xl mb-4 md:mb-8 font-standardTT font-bold">
             Company Values
           </div>
-          <div className="md:pl-8 pl-4">
+          <div className="md:pl-8">
             <div className="text-base whitespace-pre-wrap">
               <ReadMore
                 text={company?.company_values || ""}
@@ -136,9 +139,9 @@ function Profile({
         </div>
       )}
       {jobs && jobs.results.length > 0 ? (
-        <div ref={jobsRef} className="flex flex-col mt-10 md:px-20 pl-6">
-          <div className="flex items-center justify-between">
-            <div className="text-2xl mb-8 font-standardTT font-bold">
+        <div ref={jobsRef} className="flex flex-col mt-10 md:px-20 md:pl-6">
+          <div className="flex px-4 md:px-0 mb-4 md:mb-0 items-center justify-between">
+            <div className="text-xl md:text-2xl md:mb-8 font-standardTT font-bold">
               Available jobs({jobs.results.length})
             </div>
 
@@ -187,12 +190,13 @@ function Profile({
           }}
           classNames={{
             root: "!bg-white",
-            content: "!bg-white !h-[500px]",
+            content: "!bg-white md:!h-[500px]",
             title: "!text-black !font-semibold !text-lg",
             header: "!bg-gray-100 !border-b !border-zinc-200",
             close: "!bg-zinc-900 !text-white !shadow-lg !shadow-black/30",
           }}
           title="Edit Profile"
+          fullScreen={isMobile}
           centered
         >
           <CompanySetup company={company}></CompanySetup>
@@ -231,7 +235,7 @@ function Profile({
           opened={jobsStack.state["company-profile-jobs"]}
           classNames={{
             root: "!bg-white",
-            content: "!bg-white !h-[500px]",
+            content: "!bg-white md:!h-[500px]",
             title: "!text-black !font-semibold !text-lg",
             header: "!bg-gray-100 !border-b !border-zinc-200",
             close: "!bg-zinc-900 !text-white !shadow-lg !shadow-black/30",
@@ -242,6 +246,7 @@ function Profile({
             jobsStack.open("company-profile-jobs-warning");
           }}
           title="Post a job"
+          fullScreen={isMobile}
           centered
         >
           <PostJob company={company} user={user}></PostJob>

@@ -163,6 +163,10 @@ function PostJob({
           onChange={(value) => {
             if (value) form.setFieldValue("phone", value);
           }}
+          numberInputProps={{
+            className:
+              "!border-y border-gray-300 outline-none px-2 !border-r rounded-r-md !py-2",
+          }}
           className="!text-black"
           defaultCountry="GH"
         />

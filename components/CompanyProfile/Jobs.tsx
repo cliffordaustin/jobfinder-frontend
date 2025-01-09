@@ -14,6 +14,7 @@ import { useDisclosure } from "@mantine/hooks";
 import SwiperCore from "swiper";
 import JobComponent from "./Job";
 import WarningModal from "../WarningModal";
+import useMobile from "@/utils/useMobile";
 
 function Jobs({
   jobs,
@@ -25,7 +26,7 @@ function Jobs({
   user?: UserProfile | null;
 }) {
   const settings = {
-    spaceBetween: 40,
+    spaceBetween: 20,
     pagination: {
       el: ".swiper-pagination",
       clickable: true,
@@ -47,6 +48,8 @@ function Jobs({
   const [swiper, setSwiper] = React.useState<SwiperCore>();
 
   const stack = useModalsStack(["job-modal", "warning-modal"]);
+
+  const isMobile = useMobile();
   return (
     <Swiper
       {...settings}
@@ -184,11 +187,12 @@ function Jobs({
           }
           classNames={{
             root: "!bg-white",
-            content: "!bg-white !h-[500px]",
+            content: "!bg-white h-full md:!h-[500px]",
             header: "!bg-gray-100 !border-b !border-zinc-200",
             close: "!bg-zinc-900 !text-white !shadow-lg !shadow-black/30",
           }}
           size={1100}
+          fullScreen={isMobile}
           keepMounted
           centered
         >
