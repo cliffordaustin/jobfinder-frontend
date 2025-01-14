@@ -1,7 +1,9 @@
 import React from "react";
 
 function useMobile() {
-  const [isMobile, setIsMobile] = React.useState(window.innerWidth < 768);
+  const [isMobile, setIsMobile] = React.useState(
+    typeof window !== "undefined" && window.innerWidth < 768
+  );
 
   React.useEffect(() => {
     const handleResize = () => {

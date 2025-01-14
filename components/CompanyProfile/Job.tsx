@@ -57,7 +57,7 @@ function Job({
         nextEl: ".swiper-button-next",
         prevEl: ".swiper-button-prev",
       }}
-      className="!text-black md:!h-[75vh]"
+      className="!text-black overflow-y-scroll"
     >
       <SwiperSlide className="w-full">
         <div className="flex justify-center flex-col gap-4 items-center">

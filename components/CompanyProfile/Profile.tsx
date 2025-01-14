@@ -19,10 +19,12 @@ function Profile({
   user,
   company,
   jobs,
+  viewer,
 }: {
   user?: UserProfile | null;
   company: CompanyProfile | null;
   jobs: JobsData | null;
+  viewer?: boolean;
 }) {
   const jobsRef = useRef<HTMLDivElement>(null);
 
@@ -56,16 +58,18 @@ function Profile({
           </div>
         </div>
         <div className="flex items-center justify-center gap-2">
-          <Button
-            onClick={() => {
-              profileStack.open("company-profile");
-            }}
-            variant="outline"
-            color="dark"
-            className="px-6 py-2 !rounded-md md:mt-0 mt-6 sm:w-80"
-          >
-            Edit profile
-          </Button>
+          {!viewer && (
+            <Button
+              onClick={() => {
+                profileStack.open("company-profile");
+              }}
+              variant="outline"
+              color="dark"
+              className="px-6 py-2 !rounded-md md:mt-0 mt-6 sm:w-80"
+            >
+              Edit profile
+            </Button>
+          )}
           <Button
             onClick={() => {
               if (jobsRef.current) {
@@ -106,6 +110,7 @@ function Profile({
         <ImageGalleryPicker
           images={company?.company_images}
           company={company}
+          viewer={viewer}
         ></ImageGalleryPicker>
       </div>
       {company?.about_company && (
@@ -145,14 +150,16 @@ function Profile({
               Available jobs({jobs.results.length})
             </div>
 
-            <Button
-              color="dark.8"
-              onClick={() => {
-                jobsStack.open("company-profile-jobs");
-              }}
-            >
-              Post a job
-            </Button>
+            {!viewer && (
+              <Button
+                color="dark.8"
+                onClick={() => {
+                  jobsStack.open("company-profile-jobs");
+                }}
+              >
+                Post a job
+              </Button>
+            )}
           </div>
 
           <Jobs company={company} user={user} jobs={jobs}></Jobs>
@@ -163,14 +170,16 @@ function Profile({
           className="text-xl flex flex-col justify-center items-center gap-2 font-bold text-center mt-10"
         >
           <span>No available jobs</span>
-          <Button
-            color="dark.8"
-            onClick={() => {
-              jobsStack.open("company-profile-jobs");
-            }}
-          >
-            Post a job
-          </Button>
+          {!viewer && (
+            <Button
+              color="dark.8"
+              onClick={() => {
+                jobsStack.open("company-profile-jobs");
+              }}
+            >
+              Post a job
+            </Button>
+          )}
         </div>
       )}
       <div className="mt-10 md:px-20 px-6">

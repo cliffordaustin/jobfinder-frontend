@@ -13,14 +13,21 @@ export async function getJobs(slug?: string): Promise<JobsData | null> {
   }
 
   try {
-    const res = await fetch(
-      `${process.env.NEXT_PUBLIC_API_URL}/companies/${slug}/jobs/`,
-      {
-        headers: {
-          Authorization: `Token ${token}`,
-        },
-      }
-    );
+    let res;
+    if (token) {
+      res = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/companies/${slug}/jobs/`,
+        {
+          headers: {
+            Authorization: `Token ${token}`,
+          },
+        }
+      );
+    } else {
+      res = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/companies/${slug}/jobs/`
+      );
+    }
 
     if (!res.ok) {
       return null;

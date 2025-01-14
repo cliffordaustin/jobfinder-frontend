@@ -62,6 +62,13 @@ export interface JobsData {
   count: number;
 }
 
+export interface CompaniesData {
+  results: CompanyProfile[];
+  previous: string;
+  next: string;
+  count: number;
+}
+
 export interface Seeker {
   slug: string;
   user: string;

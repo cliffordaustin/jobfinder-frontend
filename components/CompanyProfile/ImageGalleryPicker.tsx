@@ -21,9 +21,11 @@ import useMobile from "@/utils/useMobile";
 function ImageGalleryPicker({
   images,
   company,
+  viewer,
 }: {
   images?: CompanyProfileImages[];
   company?: CompanyProfile | null;
+  viewer?: boolean;
 }) {
   SwiperCore.use([FreeMode, Navigation, Thumbs]);
 
@@ -57,33 +59,37 @@ function ImageGalleryPicker({
       {allImages && allImages.length > 0 ? (
         <div className="my-2 px-3 md:px-0 flex items-center justify-between w-full max-w-[1000px] mx-auto">
           <div></div>
-          <Button
-            onClick={() => {
-              stack.open("gallery-modal");
-            }}
-            color="dark"
-            variant="outline"
-            className="px-6 py-2 !rounded-md md:mt-0 mt-6 sm:w-80"
-          >
-            {allImages && allImages.length > 0
-              ? "Edit images"
-              : "Upload images"}
-          </Button>
+          {!viewer && (
+            <Button
+              onClick={() => {
+                stack.open("gallery-modal");
+              }}
+              color="dark"
+              variant="outline"
+              className="px-6 py-2 !rounded-md md:mt-0 mt-6 sm:w-80"
+            >
+              {allImages && allImages.length > 0
+                ? "Edit images"
+                : "Upload images"}
+            </Button>
+          )}
         </div>
       ) : (
         <div className="flex flex-col items-center justify-center gap-3 w-full max-w-[1000px] mx-auto">
           <h1 className="text-xl font-bold text-black text-center">
             No images
           </h1>
-          <Button
-            onClick={() => {
-              stack.open("gallery-modal");
-            }}
-            color="dark"
-            className="px-6 py-2 !rounded-md md:mt-0 mt-6 sm:w-80"
-          >
-            Upload images
-          </Button>
+          {!viewer && (
+            <Button
+              onClick={() => {
+                stack.open("gallery-modal");
+              }}
+              color="dark"
+              className="px-6 py-2 !rounded-md md:mt-0 mt-6 sm:w-80"
+            >
+              Upload images
+            </Button>
+          )}
         </div>
       )}
       <Swiper

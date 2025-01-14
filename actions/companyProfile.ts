@@ -29,3 +29,23 @@ export async function getCompanyProfile(): Promise<CompanyProfile | null> {
     return null;
   }
 }
+
+export async function getCompany(slug: string): Promise<CompanyProfile | null> {
+  let company: CompanyProfile | null;
+
+  try {
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/company-profiles/${slug}/`
+    );
+
+    if (!res.ok) {
+      return null;
+    }
+
+    company = await res.json();
+
+    return company;
+  } catch (error) {
+    return null;
+  }
+}

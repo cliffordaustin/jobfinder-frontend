@@ -86,9 +86,11 @@ const NavbarComponent = ({ user }: { user?: UserProfile | null }) => {
             )}
           </div>
         ) : (
-          <Button color="dark" className="hidden md:block">
-            Find an intern
-          </Button>
+          <Link href={"/companies"}>
+            <Button color="dark" className="hidden md:block">
+              Find a company
+            </Button>
+          </Link>
         )}
         {user ? (
           <Menu shadow="md" width={200}>
