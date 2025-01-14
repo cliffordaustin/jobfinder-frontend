@@ -6,7 +6,9 @@ import Footer from "@/components/Footer";
 import NavbarComponent from "@/components/Navbar/Primary";
 import React from "react";
 
-async function CompanyProfile({ params }: { params: { slug: string } }) {
+type tParams = Promise<{ slug: string }>;
+
+async function CompanyProfile({ params }: { params: tParams }) {
   const { slug } = await params;
   const user = await getUserProfile();
   const company = await getCompany(slug);
