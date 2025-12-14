@@ -33,7 +33,7 @@
     "lodash": "^4.17.21",
     "mantine-form-zod-resolver": "^1.1.0",
     "moment": "^2.30.1",
-    "next": "15.0.3",
+    "next": "15.0.7",
     "next-auth": "^4.24.11",
     "nextjs-toploader": "^3.7.15",
     "nprogress": "^0.2.0",
